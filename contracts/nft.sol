@@ -25,9 +25,7 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
 
     function mint1YR(address recipient, string memory _tokenURI) public returns (uint256) {
         require(hasRole(MINTER_ROLE, msg.sender), "FMTA1YR: Message Sender requires MINTER_ROLE");
-        //require(totalSupply() <= 10, "FMTA1YR: Cannot Mint Any more As Total Supply has been reached");
         _tokenIds.increment();
-
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, _tokenURI);
