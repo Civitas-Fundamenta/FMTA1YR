@@ -11,9 +11,12 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
     
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
+    
+    uint256 public cap;
 
     constructor() ERC721("FMTA1YR", "1YR") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        cap = 100;
     }
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -22,6 +25,7 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
 
     function mint1YR(address recipient, string memory _tokenURI) public returns (uint256) {
         require(hasRole(MINTER_ROLE, msg.sender), "FMTA1YR: Message Sender requires MINTER_ROLE");
+        //require(totalSupply() <= 10, "FMTA1YR: Cannot Mint Any more As Total Supply has been reached");
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -34,6 +38,11 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
     function setTokenURI (uint256 tokenId, string memory _tokenURI) public {
         require(hasRole(EDIT_URI_ROLE, msg.sender), "FMTA1YR: Message Sender requires EDIT_URI_ROLE");
         _setTokenURI(tokenId, _tokenURI);
+    }
+    
+    function setCap (uint256 _newCap) public {
+        require(hasRole(ADMIN, msg.sender), "FMTA1YR: Must be ADMIN");
+        cap = _newCap;
     }
     
     function supportsInterface(bytes4 interfaceId)
@@ -52,6 +61,10 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
         uint256 tokenId
     ) internal virtual override(ERC721, ERC721Enumerable) {
         super._beforeTokenTransfer(from, to, tokenId);
+        
+         if (from == address(0)) { 
+            require(totalSupply() <= 10, "FMTA1YR: Minting Limit Reached!");
+         }
     }
     
     function _burn (
@@ -63,9 +76,6 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
   
    function tokenURI(uint256 tokenId) public view virtual override(ERC721, ERC721URIStorage) returns (string memory) {
         require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
-
-        //string memory baseURI = _baseURI();
-        //return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
 
         return super.tokenURI(tokenId);
     } 
