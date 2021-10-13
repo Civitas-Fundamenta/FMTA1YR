@@ -57,11 +57,10 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable,
         return super.supportsInterface(interfaceId);
     }
     
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal virtual override(ERC721, ERC721Enumerable) {
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId) 
+        internal 
+        virtual 
+        override(ERC721, ERC721Enumerable) {
         super._beforeTokenTransfer(from, to, tokenId);
         
          if (from == address(0)) { 
@@ -69,14 +68,19 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable,
          }
     }
     
-    function _burn (
-        uint256 tokenId
-    ) internal virtual override(ERC721, ERC721URIStorage) {
+    function _burn (uint256 tokenId) 
+        internal 
+        virtual 
+        override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
 
   
-   function tokenURI(uint256 tokenId) public view virtual override(ERC721, ERC721URIStorage) returns (string memory) {
+   function tokenURI(uint256 tokenId) 
+        public 
+        view 
+        virtual 
+        override(ERC721, ERC721URIStorage) returns (string memory) {
         require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
 
         return super.tokenURI(tokenId);
