@@ -8,16 +8,15 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 
-contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable {
+contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable, ERC721Burnable {
     
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     
-    uint256 public cap;
+    uint256 public cap = 10;
 
     constructor() ERC721("FMTA1YR", "1YR") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        cap = 10;
     }
 
     bytes32 public constant _MINTER_ROLE = keccak256("_MINTER_ROLE");
@@ -32,6 +31,10 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
         _setTokenURI(newItemId, _tokenURI);
 
         return newItemId;
+    }
+    
+    function burn1YR (uint256 tokenId) public {
+        burn(tokenId);
     }
     
     function setTokenURI (uint256 tokenId, string memory _tokenURI) public {
