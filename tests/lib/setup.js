@@ -1,6 +1,7 @@
 const role = require("./roles.js");
 
 let MinterContract = artifacts.require('minter');
+let NftContract = artifacts.require('FMTA1YR');
 let TokenContract = artifacts.require('FMTAToken');
 
 exports.deployTokenContract = async(creator) =>
@@ -8,8 +9,12 @@ exports.deployTokenContract = async(creator) =>
     return await TokenContract.new({ from: creator });
 }
 
+exports.deployNftContract = async(creator) =>
+{
+    return await NftContract.new({ from: creator });
+}
+
 exports.deployMinterContract = async(creator) =>
 {
-    //Don't worry about deploying the nft for right now
-    return await MinterContract.new("0x0000000000000000000000000000000000000000", { from: creator });
+    return await MinterContract.new({ from: creator });
 }
