@@ -2,8 +2,8 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./fmtaInterface.sol";
 import "./nftInterface.sol";
 
@@ -21,7 +21,7 @@ contract minter is AccessControl {
         fmta1yr = _fmta1yr;
     }
     
-    function getBalance (address user) public returns (uint256 balance) {
+    function getBalance (address user) public view returns (uint256 balance) {
         fmta.balanceOf(user);
         
         return balance;
