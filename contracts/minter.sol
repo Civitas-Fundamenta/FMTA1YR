@@ -11,6 +11,7 @@ contract minter is AccessControl {
     fmtaInterface private fmta;
     
     function mint (address recipient, string memory _tokenURI) public returns (uint256) {
+        require(getBalance(msg.sender) >= 1000);
         uint256 newItemId = fmta1yr.mint1YR(recipient, _tokenURI);
         return newItemId;
     }
