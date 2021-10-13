@@ -13,10 +13,11 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable,
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     
-    uint256 public cap = 10;
+    uint256 public cap;
 
-    constructor() ERC721("FMTA1YR", "1YR") {
+    constructor(uint256 _initialSupplyCap) ERC721("FMTA1YR", "1YR") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        cap = _initialSupplyCap;
     }
 
     bytes32 public constant _MINTER_ROLE = keccak256("_MINTER_ROLE");
