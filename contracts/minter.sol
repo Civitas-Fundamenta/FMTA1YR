@@ -15,8 +15,8 @@ contract minter is AccessControl {
     mapping (address => bool) public hasMinted; 
     
     function mint (address recipient, string memory _tokenURI) public returns (uint256) {
-        require(getBalance(msg.sender) >= fmtaNeeded);
-        require(hasMinted[msg.sender] == false, "minter: Error");
+        require(getBalance(msg.sender) >= fmtaNeeded, "minter: Account must hold required amount of FMTA");
+        require(hasMinted[msg.sender] == false, "minter: FMTA1YR can only be minted once per account");
         uint256 newItemId = fmta1yr.mint1YR(recipient, _tokenURI);
         hasMinted[msg.sender] = true;
         return newItemId;
