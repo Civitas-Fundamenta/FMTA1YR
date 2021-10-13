@@ -1,0 +1,5 @@
+#!/bin/bash
+dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+${dir}/node_modules/.bin/ganache-cli \
+--account "0x6252dec7ee4524a13e731b3bd60f2d9a422d7296d6ca24c1d3ce791a72b53716,1000000000000000000000" \
+--account "0x770401b852bd8622951f9fd1cda9dd3d4b082049bc086db2c5968c9f0648a8c1,1000000000000000000000"

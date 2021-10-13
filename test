@@ -1,0 +1,4 @@
+#!/bin/bash
+dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+reset && ${dir}/node_modules/.bin/truffle test ${dir}/tests/$1.js --show-events

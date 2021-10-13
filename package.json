@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.2",
+    "ganache-cli": "^6.12.2",
+    "solc": "^0.8.4",
+    "truffle": "^5.4.14"
+  }
+}
