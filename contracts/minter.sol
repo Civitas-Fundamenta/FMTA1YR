@@ -12,7 +12,9 @@ contract minter is AccessControl {
     
     uint256 public fmtaNeeded;
     
-    mapping (address => bool) public hasMinted; 
+    mapping (address => bool) public hasMinted;
+    
+    bytes32 public constant ADMIN = keccak256("ADMIN");
     
     function mint (address recipient, string memory _tokenURI) public returns (uint256) {
         require(getBalance(msg.sender) >= fmtaNeeded, "minter: Account must hold required amount of FMTA");
@@ -23,14 +25,17 @@ contract minter is AccessControl {
     }
     
     function setFMTA1YR (nftInterface _fmta1yr) public {
+        require(hasRole(ADMIN, msg.sender), "minter: Must have ADMIN");
         fmta1yr = _fmta1yr;
     }
     
     function setFMTA (fmtaInterface _fmta) public {
+        require(hasRole(ADMIN, msg.sender), "minter: Must have ADMIN");
         fmta = _fmta;
     }
     
     function setFmtaNeeded (uint256 _NewFmtaNeeded) public {
+        require(hasRole(ADMIN, msg.sender), "minter: Must have ADMIN");
         fmtaNeeded = _NewFmtaNeeded;
     }
     
