@@ -20,12 +20,12 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
         cap = 100;
     }
 
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-    bytes32 public constant EDIT_URI_ROLE = keccak256("EDIT_URI_ROLE");
-    bytes32 public constant ADMIN = keccak256("ADMIN");
+    bytes32 public constant _MINTER_ROLE = keccak256("_MINTER_ROLE");
+    bytes32 public constant _EDIT_URI_ROLE = keccak256("_EDIT_URI_ROLE");
+    bytes32 public constant _ADMIN = keccak256("_ADMIN");
 
     function mint1YR(address recipient, string memory _tokenURI) external returns (uint256) {
-        require(hasRole(MINTER_ROLE, msg.sender), "FMTA1YR: Message Sender requires MINTER_ROLE");
+        require(hasRole(_MINTER_ROLE, msg.sender), "FMTA1YR: Message Sender requires MINTER_ROLE");
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
@@ -35,12 +35,12 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
     }
     
     function setTokenURI (uint256 tokenId, string memory _tokenURI) public {
-        require(hasRole(EDIT_URI_ROLE, msg.sender), "FMTA1YR: Message Sender requires EDIT_URI_ROLE");
+        require(hasRole(_EDIT_URI_ROLE, msg.sender), "FMTA1YR: Message Sender requires EDIT_URI_ROLE");
         _setTokenURI(tokenId, _tokenURI);
     }
     
     function setCap (uint256 _newCap) public {
-        require(hasRole(ADMIN, msg.sender), "FMTA1YR: Must be ADMIN");
+        require(hasRole(_ADMIN, msg.sender), "FMTA1YR: Must be ADMIN");
         cap = _newCap;
     }
     
