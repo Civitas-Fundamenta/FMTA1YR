@@ -10,11 +10,15 @@ contract minter is AccessControl {
     nftInterface private fmta1yr;
     fmtaInterface private fmta;
     
-    uint256 public fmtaNeeded = 100000000000000000000;
+    uint256 public fmtaNeeded;
+    
+    mapping (address => bool) public hasMinted; 
     
     function mint (address recipient, string memory _tokenURI) public returns (uint256) {
         require(getBalance(msg.sender) >= fmtaNeeded);
+        require(hasMinted[msg.sender] == false, "minter: Error");
         uint256 newItemId = fmta1yr.mint1YR(recipient, _tokenURI);
+        hasMinted[msg.sender] = true;
         return newItemId;
     }
     
