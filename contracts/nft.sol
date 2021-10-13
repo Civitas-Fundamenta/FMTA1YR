@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 
 contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable {
     
@@ -23,7 +24,7 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
     bytes32 public constant EDIT_URI_ROLE = keccak256("EDIT_URI_ROLE");
     bytes32 public constant ADMIN = keccak256("ADMIN");
 
-    function mint1YR(address recipient, string memory _tokenURI) public returns (uint256) {
+    function mint1YR(address recipient, string memory _tokenURI) external returns (uint256) {
         require(hasRole(MINTER_ROLE, msg.sender), "FMTA1YR: Message Sender requires MINTER_ROLE");
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
