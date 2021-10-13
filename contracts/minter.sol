@@ -10,7 +10,6 @@ import "./nftInterface.sol";
 contract minter is AccessControl {
     
     nftInterface private fmta1yr;
-    address _fmta;
     fmtaInterface private fmta;
     
     function mint (address recipient, string memory _tokenURI) public returns (uint256 newItemId) {
@@ -23,7 +22,7 @@ contract minter is AccessControl {
     }
     
     function getBalance (address user) public returns (uint256 balance) {
-        _fmta.balanceOf(user);
+        fmta.balanceOf(user);
         
         return balance;
     }
