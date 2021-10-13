@@ -10,8 +10,10 @@ contract minter is AccessControl {
     nftInterface private fmta1yr;
     fmtaInterface private fmta;
     
+    uint256 public fmtaNeeded = 100000000000000000000;
+    
     function mint (address recipient, string memory _tokenURI) public returns (uint256) {
-        require(getBalance(msg.sender) >= 1000);
+        require(getBalance(msg.sender) >= fmtaNeeded);
         uint256 newItemId = fmta1yr.mint1YR(recipient, _tokenURI);
         return newItemId;
     }
@@ -20,13 +22,17 @@ contract minter is AccessControl {
         fmta1yr = _fmta1yr;
     }
     
+    function setFMTA (fmtaInterface _fmta) public {
+        fmta = _fmta;
+    }
+    
+    function setFmtaNeeded (uint256 _NewFmtaNeeded) public {
+        fmtaNeeded = _NewFmtaNeeded;
+    }
+    
     function getBalance (address user) public view returns (uint256) {
         uint256 balance = fmta.balanceOf(user);
         return balance;
-    }
-    
-    function setFMTA (fmtaInterface _fmta) public {
-        fmta = _fmta;
     }
 
     function getFMTA() public view returns (fmtaInterface) {
