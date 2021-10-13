@@ -17,7 +17,7 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
 
     constructor() ERC721("FMTA1YR", "1YR") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        cap = 100;
+        cap = 10;
     }
 
     bytes32 public constant _MINTER_ROLE = keccak256("_MINTER_ROLE");
@@ -62,7 +62,7 @@ contract FMTA1YR is AccessControlEnumerable, ERC721URIStorage, ERC721Enumerable 
         super._beforeTokenTransfer(from, to, tokenId);
         
          if (from == address(0)) { 
-            require(totalSupply() <= 10, "FMTA1YR: Minting Limit Reached!");
+            require(totalSupply() <= cap, "FMTA1YR: Minting Limit Reached!");
          }
     }
     
