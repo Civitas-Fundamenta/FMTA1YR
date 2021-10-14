@@ -11,31 +11,38 @@ contract minter is AccessControl {
     fmtaInterface private fmta;
     
     uint256 public fmtaNeeded;
+
+    string public uri;
     
     mapping (address => bool) public hasMinted;
     
-    bytes32 public constant ADMIN = keccak256("ADMIN");
+    bytes32 public constant _ADMIN = keccak256("_ADMIN");
+
+    constructor(string memory _tokenURI)
+    {
+        uri = _tokenURI;
+    }
     
-    function mint (address recipient, string memory _tokenURI) public returns (uint256) {
+    function mint () public returns (uint256) {
         require(getBalance(msg.sender) >= fmtaNeeded, "minter: Account must hold required amount of FMTA");
         require(hasMinted[msg.sender] == false, "minter: FMTA1YR can only be minted once per account");
-        uint256 newItemId = fmta1yr.mint1YR(recipient, _tokenURI);
+        uint256 newItemId = fmta1yr.mint1YR(msg.sender, uri);
         hasMinted[msg.sender] = true;
         return newItemId;
     }
     
     function setFMTA1YR (nftInterface _fmta1yr) public {
-        require(hasRole(ADMIN, msg.sender), "minter: Must have ADMIN");
+        require(hasRole(_ADMIN, msg.sender), "minter: Must have ADMIN");
         fmta1yr = _fmta1yr;
     }
     
     function setFMTA (fmtaInterface _fmta) public {
-        require(hasRole(ADMIN, msg.sender), "minter: Must have ADMIN");
+        require(hasRole(_ADMIN, msg.sender), "minter: Must have ADMIN");
         fmta = _fmta;
     }
     
     function setFmtaNeeded (uint256 _NewFmtaNeeded) public {
-        require(hasRole(ADMIN, msg.sender), "minter: Must have ADMIN");
+        require(hasRole(_ADMIN, msg.sender), "minter: Must have ADMIN");
         fmtaNeeded = _NewFmtaNeeded;
     }
     
