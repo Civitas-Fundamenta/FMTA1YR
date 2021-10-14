@@ -21,6 +21,7 @@ contract minter is AccessControl {
     constructor(string memory _tokenURI)
     {
         uri = _tokenURI;
+        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
     }
     
     function mint () public returns (uint256) {
