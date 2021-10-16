@@ -24,10 +24,10 @@ contract minter is AccessControl {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
     }
     
-    function mint () public returns (uint256 newItemId) {
+    function mint () public returns (uint256) {
         require(getBalance(msg.sender) >= fmtaNeeded, "minter: Account must hold required amount of FMTA");
         require(hasMinted[msg.sender] == false, "minter: FMTA1YR can only be minted once per account");
-        fmta1yr.mint1YR(msg.sender, uri);
+        uint256 newItemId = fmta1yr.mint1YR(msg.sender, uri);
         hasMinted[msg.sender] = true;
         return newItemId;
     }
