@@ -42,6 +42,11 @@ contract minter is AccessControl {
         fmta = _fmta;
     }
     
+    function setURI (string memory _uri) public {
+        require(hasRole(_ADMIN, msg.sender), "minter: Must have ADMIN");
+        uri = _uri;
+    }
+    
     function setFmtaNeeded (uint256 _NewFmtaNeeded) public {
         require(hasRole(_ADMIN, msg.sender), "minter: Must have ADMIN");
         fmtaNeeded = _NewFmtaNeeded;
