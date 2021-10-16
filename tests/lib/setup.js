@@ -11,10 +11,10 @@ exports.deployTokenContract = async(creator) =>
 
 exports.deployNftContract = async(creator) =>
 {
-    return await NftContract.new({ from: creator });
+    return await NftContract.new(50, { from: creator });
 }
 
 exports.deployMinterContract = async(creator) =>
 {
-    return await MinterContract.new({ from: creator });
+    return await MinterContract.new("hooftly_is_a_big_baby", { from: creator });
 }

@@ -15,15 +15,17 @@ contract('Minter', accounts => {
         tokenContract = await setup.deployTokenContract(creator);
         nftContract = await setup.deployNftContract(creator);
         minterContract = await setup.deployMinterContract(creator);
+
+        //admin roles all around
+        await minterContract.grantRole(role.admin, creator, { from: creator });
+        await nftContract.grantRole(role.admin, creator, { from: creator });
+        await tokenContract.grantRole(role.admin, creator, { from: creator });
         
         //Grant all relevant roles to the creator
-        await tokenContract.grantRole(role.admin, creator, { from: creator });
         await tokenContract.grantRole(role.mint, creator, { from: creator });
         await tokenContract.grantRole(role.mintTo, creator, { from: creator });
         await tokenContract.grantRole(role.burn, creator, { from: creator });
         await tokenContract.grantRole(role.burnFrom, creator, { from: creator });
-
-        await nftContract.grantRole(role.admin, creator, { from: creator });
 
         //Grant minter role so users can mint an nft
         await nftContract.grantRole(role.minter, creator, { from: creator });
@@ -34,12 +36,13 @@ contract('Minter', accounts => {
         await tokenContract.setPaused(false, { from: creator });
         await tokenContract.disableMint(false, { from: creator });
         await tokenContract.disableMintTo(false, { from: creator });
+
         //Configure our dependent contracts
         await minterContract.setFMTA1YR(nftContract.address, { from: creator });
         await minterContract.setFMTA(tokenContract.address, { from: creator });
 
         //Mint some tokens for everyone
-        await tokenContract.mintTo(creator, 50000, { from: creator });
+        await tokenContract.mintTo(creator, 10000, { from: creator });
         await tokenContract.mintTo(account1, 10000, { from: creator });
     });
 
@@ -51,12 +54,11 @@ contract('Minter', accounts => {
         console.log("Creator balance: " + await minterContract.getBalance(creator));
         console.log("Account1 balance: " + await minterContract.getBalance(account1));
 
-        console.log("Running nftContract.mint1YR");
-        await nftContract.mint1YR(account1, "poo_tastes_good", { from: account1 });
+        console.log("Running minterContract.mint");
+        await minterContract.mint({ from: account1 });
         console.log("OK");
 
-        console.log("Running minterContract.mint");
-        await minterContract.mint(account1, "i_dont_feel_well", { from: account1 });
-        console.log("OK");
+        var tokenURI = await nftContract.tokenURI(1);
+        console.log("TokenURI: " + tokenURI);
     });
 });
